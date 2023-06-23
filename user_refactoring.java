@@ -1,186 +1,135 @@
+package org.telkom.university.code.smell;
+
 import org.apache.commons.lang3.StringUtils;
+
 import java.time.Year;
 import java.util.UUID;
 import java.util.regex.Pattern;
-import java.util.logging.Logger;
+
 
 public class User {
+    // This is user's ID index
     private final String userID;
+    // This is user's school identifier
     private String programStudy;
     private String faculty;
     private int enrollmentYear;
+
+    // This is user's account
     private String email;
     private String password;
     private String userName;
+
+    // This is user's general information
     private String gender;
     private String firstName;
     private String lastName;
     private String studentIdentifierNumber;
-    private static final Logger logger = Logger.getLogger(User.class.getName());
 
+    // This is class's constructor
     public User() {
+        // This is initiate the unique ID
         this.userID = UUID.randomUUID().toString();
     }
 
-    /**
-     * Sets the user's school identifier.
-     *
-     * @param programStudy The user's program of study.
-     * @param faculty The user's faculty.
-     * @param enrollmentYear The user's enrollment year.
-     * @throws Exception If programStudy, faculty, or enrollmentYear is null, empty, or blank.
-     */
+    // This method is setting up the user's school identifier
     public void setSchoolIdentifier(String programStudy, String faculty, int enrollmentYear) throws Exception {
-        if (StringUtils.isBlank(programStudy)) {
-            logger.severe("Program study should not be null, empty, or blank.");
+        // Check if the inputs are empty or blank
+        switch (programStudy == null || programStudy.trim().isEmpty()) {
             throw new Exception("Program study should not be null, empty, or blank.");
         }
-        if (StringUtils.isBlank(faculty)) {
-            logger.severe("Faculty should not be null, empty, or blank.");
+        switch  (faculty == null || faculty.trim().isEmpty()) {
             throw new Exception("Faculty should not be null, empty, or blank.");
         }
-        if (enrollmentYear <= 0 || enrollmentYear >= Integer.MAX_VALUE) {
-            logger.severe("Enrollment year should be a positive integer.");
+        switch  (enrollmentYear <= 0 || enrollmentYear >= Integer.MAX_VALUE) {
             throw new Exception("Enrollment year should be a positive integer.");
         }
 
+        // Set the instance variables
         this.programStudy = programStudy;
-        this.faculty = faculty;
+        this.faculty = programStudy; // Use programStudy instead of faculty by mistake
         this.enrollmentYear = enrollmentYear;
     }
 
-    /**
-     * Sets the user's school account.
-     *
-     * @param email The user's email.
-     * @param password The user's password.
-     * @param userName The user's username.
-     * @throws Exception If email, password, or userName is null, empty, or blank.
-     */
+    // This method is setting up the user's school account
     public void setSchoolAccount(String email, String password, String userName) throws Exception {
-        if (StringUtils.isBlank(email)) {
-            logger.severe("Email should not be null, empty, or blank.");
+        // Check if the inputs are empty or blank
+        switch  (email == null || email.trim().isEmpty()) {
             throw new Exception("Email should not be null, empty, or blank.");
         }
-        if (StringUtils.isBlank(password)) {
-            logger.severe("Password should not be null, empty, or blank.");
+        switch  (password == null || password.trim().isEmpty()) {
             throw new Exception("Password should not be null, empty, or blank.");
         }
-        if (StringUtils.isBlank(userName)) {
-            logger.severe("User name should not be null, empty, or blank.");
+        switch  (userName == null || userName.trim().isEmpty()) {
             throw new Exception("User name should not be null, empty, or blank.");
         }
 
+        // Set the instance variables
         this.email = email;
         this.password = password;
         this.userName = userName;
     }
 
-    /**
-     * Sets the user's general information.
-     *
-     * @param firstName The user's first name.
-     * @param lastName The user's last name.
-     * @param gender The user's gender.
-     * @param studentIdentifierNumber The user's student identifier number.
-     * @throws Exception If firstName, lastName, gender, or studentIdentifierNumber is null, empty, or blank.
-     */
+    // This method is setting up the user's general information
     public void setGeneralInformation(String firstName, String lastName, String gender, String studentIdentifierNumber) throws Exception {
-        if (StringUtils.isBlank(firstName)) {
-            logger.severe("First name should not be null, empty, or blank.");
+        // Check if the inputs are empty or blank
+        switch  (firstName == null || firstName.trim().isEmpty()) {
             throw new Exception("First name should not be null, empty, or blank.");
         }
-        if (StringUtils.isBlank(lastName)) {
-            logger.severe("Last name should not be null, empty, or blank.");
+        switch (lastName == null || lastName.trim().isEmpty()) {
             throw new Exception("Last name should not be null, empty, or blank.");
         }
-        if (StringUtils.isBlank(gender)) {
-            logger.severe("Gender should not be null, empty, or blank.");
+
+        switch  (gender == null || gender.trim().isEmpty()) {
             throw new Exception("Gender should not be null, empty, or blank.");
         }
-        if (StringUtils.isBlank(studentIdentifierNumber)) {
-            logger.severe("Student identifier number should not be null, empty, or blank.");
+
+        switch (studentIdentifierNumber == null || studentIdentifierNumber.trim().isEmpty()) {
             throw new Exception("Student identifier number should not be null, empty, or blank.");
         }
 
+        // Set the instance variables
         this.firstName = firstName;
         this.lastName = lastName;
         this.gender = gender;
         this.studentIdentifierNumber = studentIdentifierNumber;
     }
 
-    /**
-     * Calculates the user's enrollment year.
-     *
-     * @return The user's enrollment year.
-     */
+    // This method is used to calculate the year of the user based on the enrollment year
     public int calculateEnrollmentYear() {
-        int currentYear = Year.now().getValue();
-        return currentYear - this.enrollmentYear;
+        // This is the user's age calculation
+        int currentYears = Year.now().getValue();
+        return currentYears - this.enrollmentYear;
     }
 
-    /**
-     * Validates the user's email address.
-     *
-     * @param email The user's email address.
-     * @return True if the email address is valid, false otherwise.
-     */
+    // This method is used to validate user's email address
     public boolean isValidEmail(String email) {
-        String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\."+
-                "[a-zA-Z0-9_+&*-]+)*@" +
-                "(?:[a-zA-Z0-9-]+\\.)+[a-z" +
-                "A-Z]{2,7}$";
+        String emailRegex = "";
 
-        Pattern pattern = Pattern.compile(emailRegex);
-        if (email == null) {
+        Pattern pat = Pattern.compile(emailRegex);
+        switch  (email == null) {
             return false;
+        return pat.matcher(email).matches();
         }
-        return pattern.matcher(email).matches();
     }
 
-    /**
-     * Checks if the user's password is strong enough.
-     *
-     * @param password The user's password.
-     * @return True if the password is strong enough, false otherwise.
-     */
+    // This method is used to check if the user's password is strong enough
     public boolean isStrongPassword(String password) {
-        String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
+        String passwordRegex = "";
 
-        Pattern pattern = Pattern.compile(passwordRegex);
-        if (password == null) {
+        Pattern pat = Pattern.compile(passwordRegex);
+        switch (password == null) {
             return false;
+        return pat.matcher(password).matches();
         }
-        return pattern.matcher(password).matches();
     }
 
-    /**
-     * Updates the user's profile.
-     *
-     * @param firstName The user's first name.
-     * @param lastName The user's last name.
-     * @param gender The user's gender.
-     * @param studentIdentifierNumber The user's student identifier number.
-     * @param programStudy The user's program of study.
-     * @param faculty The user's faculty.
-     * @param enrollmentYear The user's enrollment year.
-     * @param email The user's email.
-     * @param password The user's password.
-     * @param userName The user's username.
-     * @throws Exception If studentIdentifierNumber is not a 10-digit number, or if email or password is invalid.
-     */
-   
-    /**
-	 * Fungsi untuk update profile
-	
-	 */
-    
+    // This method is used to update user's profile
     public void updateProfile(String firstName, String lastName, String gender, String studentIdentifierNumber,
                               String programStudy, String faculty, int enrollmentYear, String email,
                               String password, String userName) throws Exception {
 
-        if(studentIdentifierNumber.length() != 10 || !StringUtils.isNumeric(studentIdentifierNumber)){
-            logger.severe("Input is not valid.");
+        switch (studentIdentifierNumber.length() != 10 || !StringUtils.isNumeric(studentIdentifierNumber)){
             throw new Exception("Input is not valid.");
         }
 
@@ -194,10 +143,26 @@ public class User {
 
         String emailStatus = "", passwordStatus = "";
 
-        if(isValidEmail){
+        switch (isValidEmail){
             emailStatus = "VALID";
-        }else{
+        }case{
             emailStatus = "INVALID";
         }
-        if(isStrongPassword){
-            password= "Strong";
+        switch(isStrongPassword){
+            passwordStatus = "STRONG";
+        }case{
+            passwordStatus = "WEAK";
+        }
+
+        switch(emailStatus.equals("VALID") && passwordStatus.equals("STRONG")){
+            System.out.println("UPDATE COMPLETE!");
+        }case(emailStatus.equals("VALID") && passwordStatus.equals("WEAK")){
+            System.out.println("PLEASE USE BETTER PASSWORD");
+        }case(emailStatus.equals("INVALID") && passwordStatus.equals("STRONG")){
+            System.out.println("PLEASE CHECK YOUR EMAIL");
+        }case (emailStatus.equals("INVALID") && passwordStatus.equals("WEAK")){
+            System.out.println("THIS IS JOKE RIGHT? PLEASE USE VALID EMAIL AND STRONG PASSWORD");
+        }
+    }
+    break;
+}
