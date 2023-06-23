@@ -169,6 +169,12 @@ public class User {
      * @param userName The user's username.
      * @throws Exception If studentIdentifierNumber is not a 10-digit number, or if email or password is invalid.
      */
+   
+    /**
+	 * Fungsi untuk update profile
+	
+	 */
+    
     public void updateProfile(String firstName, String lastName, String gender, String studentIdentifierNumber,
                               String programStudy, String faculty, int enrollmentYear, String email,
                               String password, String userName) throws Exception {
